@@ -8,7 +8,7 @@ A DIY Art-Net / sACN to DMX512 node with a built-in web UI (miseru) over HTTP/We
 
 | 版 | マイコン | 状態 | 場所 |
 |---|---|---|---|
-| rev A | STM32F407VGT6 + LAN8742A（有線 LAN） | 基板を作って手実装 1 台が動いている。ファーム v0.2.0 は実機で確認済み、v0.3.0 は試験版（Linux）でのみ確認 | [hardware/revA](hardware/revA/) |
+| rev A | STM32F407VGT6 + LAN8742A（有線 LAN） | 基板を作って手実装 1 台が動いている。ファーム v0.3.0 を実機に書き込み、画面の差し替えまで動いている | [hardware/revA](hardware/revA/) |
 | rev B | ESP32-S3-WROOM-1-N16R8 + W5500（Wi-Fi と有線の併用） | **作業中**。回路図 5 版と PCB 1 版（未発注。PCB 1 版は点検で直す所が見つかっている）。ファームはこれから | [hardware/revB](hardware/revB/) |
 
 ## フォルダ
