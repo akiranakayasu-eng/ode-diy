@@ -9056,6 +9056,20 @@
 	)
 	(wire
 		(pts
+			(xy 457.2 361.95) (xy 457.2 356.87)
+		)
+		(stroke (width 0) (type default))
+		(uuid "84c8f2cb-3060-35b7-d9d1-a1139421f34d")
+	)
+	(wire
+		(pts
+			(xy 457.2 369.57) (xy 457.2 374.65)
+		)
+		(stroke (width 0) (type default))
+		(uuid "4dd84283-1482-9032-dde5-147a77c68121")
+	)
+	(wire
+		(pts
 			(xy 492.76 299.72) (xy 497.84 299.72)
 		)
 		(stroke (width 0) (type default))
@@ -20948,14 +20962,168 @@
 		)
 		(uuid "38d8aab4-4655-4788-afff-6f02ed50cb74")
 	)
-	(text "R83 1k + C78 100n: panel LOCK button to IO7 (ESD, debounce). R84-R86 100R: panel LED lines (cable to touchable panel)"
+	(symbol
+		(lib_id "ode_main_revB:R")
+		(at 457.2 365.76 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "1b127be2-a4a2-1cce-1647-f7f2fe0b25bf")
+		(property "Reference" "R87"
+			(at 459.74 364.49 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font (size 1.27 1.27))
+				(justify left)
+			)
+		)
+		(property "Value" "10k"
+			(at 459.74 367.03 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font (size 1.27 1.27))
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			(at 457.2 365.76 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font (size 1.27 1.27))
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 457.2 365.76 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font (size 1.27 1.27))
+				(justify left)
+			)
+		)
+		(property "Description" ""
+			(at 457.2 365.76 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font (size 1.27 1.27))
+				(justify left)
+			)
+		)
+		(pin "1"
+			(uuid "6d2f3714-a9e9-743e-65c5-cc3d5b9e559f")
+		)
+		(pin "2"
+			(uuid "63bf12e7-5b28-25da-d53b-52425b2181f2")
+		)
+		(instances
+			(project "ode_main_revB"
+				(path "/5d6ef1c9-511d-2169-ff41-e4fccf7f12d5"
+					(reference "R87")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ode_main_revB:+3V3")
+		(at 457.2 356.87 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "edf78cc4-04cf-dedd-0dc7-6382a1daef4e")
+		(property "Reference" "#PWR3017"
+			(at 457.2 356.87 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font (size 1.27 1.27))
+				(justify left)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 457.2 353.06 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font (size 1.27 1.27))
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 457.2 356.87 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font (size 1.27 1.27))
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 457.2 356.87 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font (size 1.27 1.27))
+				(justify left)
+			)
+		)
+		(property "Description" ""
+			(at 457.2 356.87 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font (size 1.27 1.27))
+				(justify left)
+			)
+		)
+		(pin "1"
+			(uuid "a24efb38-010a-61cb-0f0a-27f39396b4aa")
+		)
+		(instances
+			(project "ode_main_revB"
+				(path "/5d6ef1c9-511d-2169-ff41-e4fccf7f12d5"
+					(reference "#PWR3017")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(label "BTN_LOCK_M"
+		(at 457.2 374.65 270)
+		(effects
+			(font (size 1.27 1.27))
+			(justify right bottom)
+		)
+		(uuid "0af8855b-35c7-1d45-68b7-a680a86da32f")
+	)
+	(text "R83 1k + C78 100n: panel LOCK button to IO7 (ESD, debounce). R84-R86 100R: panel LED lines (cable to touchable panel). R87 10k pull-up [PCB check 1 low 11]"
 		(exclude_from_sim no)
 		(at 391.16 388.62 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left bottom)
 		)
-		(uuid "2cdc14b2-3dc1-8af7-b405-26461d039a3a")
+		(uuid "dfb148c9-d1da-d3b8-1f82-c55dc16e934f")
 	)
 	(text "R80/R81 22k + C74/C75 100n: CC to ADC through series R (ESD, boot glitch) [check 2 mid 1]. C76/C77 USB caps DNP, connector side of R4/R5 [HDG USB fig]. R82 UART1 TX series [HDG UART]"
 		(exclude_from_sim no)
@@ -23352,8 +23520,8 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "edf78cc4-04cf-dedd-0dc7-6382a1daef4e")
-		(property "Reference" "#PWR3017"
+		(uuid "251b6842-93aa-27e8-90f3-08351cc2ced0")
+		(property "Reference" "#PWR3018"
 			(at 132.08 379.73 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -23403,12 +23571,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "a24efb38-010a-61cb-0f0a-27f39396b4aa")
+			(uuid "19113e04-6222-c420-3d96-53088cc13c68")
 		)
 		(instances
 			(project "ode_main_revB"
 				(path "/5d6ef1c9-511d-2169-ff41-e4fccf7f12d5"
-					(reference "#PWR3017")
+					(reference "#PWR3018")
 					(unit 1)
 				)
 			)
@@ -23570,8 +23738,8 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "251b6842-93aa-27e8-90f3-08351cc2ced0")
-		(property "Reference" "#PWR3018"
+		(uuid "c0fcb156-919a-2c8b-20f4-33bfb70b4269")
+		(property "Reference" "#PWR3019"
 			(at 144.78 379.73 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -23621,12 +23789,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "19113e04-6222-c420-3d96-53088cc13c68")
+			(uuid "47f32efa-1190-43ec-a804-784d6b2dc418")
 		)
 		(instances
 			(project "ode_main_revB"
 				(path "/5d6ef1c9-511d-2169-ff41-e4fccf7f12d5"
-					(reference "#PWR3018")
+					(reference "#PWR3019")
 					(unit 1)
 				)
 			)
@@ -23935,8 +24103,8 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "c0fcb156-919a-2c8b-20f4-33bfb70b4269")
-		(property "Reference" "#PWR3019"
+		(uuid "2a5bad56-be80-0fc6-c6c3-43fe62f3514d")
+		(property "Reference" "#PWR3020"
 			(at 236.22 340.36 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -23986,12 +24154,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "47f32efa-1190-43ec-a804-784d6b2dc418")
+			(uuid "df1f6a48-5916-b55d-7854-09a12d1e979f")
 		)
 		(instances
 			(project "ode_main_revB"
 				(path "/5d6ef1c9-511d-2169-ff41-e4fccf7f12d5"
-					(reference "#PWR3019")
+					(reference "#PWR3020")
 					(unit 1)
 				)
 			)
@@ -24090,8 +24258,8 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "2a5bad56-be80-0fc6-c6c3-43fe62f3514d")
-		(property "Reference" "#PWR3020"
+		(uuid "bddfb1d6-c78c-d02a-3176-9f3119fa18c8")
+		(property "Reference" "#PWR3021"
 			(at 165.1 379.73 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -24141,12 +24309,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "df1f6a48-5916-b55d-7854-09a12d1e979f")
+			(uuid "da7f1974-9957-ae61-8f35-97c4c8b0fadf")
 		)
 		(instances
 			(project "ode_main_revB"
 				(path "/5d6ef1c9-511d-2169-ff41-e4fccf7f12d5"
-					(reference "#PWR3020")
+					(reference "#PWR3021")
 					(unit 1)
 				)
 			)

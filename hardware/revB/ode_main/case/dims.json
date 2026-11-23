@@ -1,16 +1,53 @@
 {
+ "window_y_bottom": [
+  73.1,
+  107.1
+ ],
+ "window_y_side": [
+  80.5,
+  107.1
+ ],
+ "window_bottom_x": [
+  49.6,
+  83.6
+ ],
+ "window_side_z": [
+  0.0,
+  21.6
+ ],
  "outer_w": 89.2,
- "outer_d": 90.7,
+ "outer_d": 112.7,
  "outer_h": 44.8,
+ "holes": [
+  [
+   3.5,
+   59.5
+  ],
+  [
+   72.5,
+   58.0
+  ],
+  [
+   72.5,
+   80.5
+  ],
+  [
+   49.5,
+   80.5
+  ]
+ ],
+ "antenna_out": 6.0,
+ "antenna_clear": 15.0,
+ "gap_back": 21.0,
  "main_board": [
   76.0,
-  80.0
+  84.0
  ],
  "spacer_low": 5.0,
  "spacer_high": 35.0,
  "wall_h_without_tabs": 41.6,
  "front_back_wall_w": 82.0,
- "side_wall_d": 86.7,
+ "side_wall_d": 108.7,
  "tab": [
   10.0,
   1.6

@@ -204,8 +204,8 @@ def build():
                        ("R82", "R", "0", "TX_U", "TX_M")])
     row(287.02 + 78.74, 393.7, [("R83", "R", "1k", "BTN_LOCK", "BTN_LOCK_M"), ("C78", "C", "100n", "BTN_LOCK_M", "GND"),
                        ("R84", "R", "100", "LED_LAN_M", "LED_LAN"), ("R85", "R", "100", "LED_DMX_M", "LED_DMX"),
-                       ("R86", "R", "100", "LED_LOCK_M", "LED_LOCK")])
-    s.text((391.16, 388.62), "R83 1k + C78 100n: panel LOCK button to IO7 (ESD, debounce). R84-R86 100R: panel LED lines (cable to touchable panel)", 1.27)
+                       ("R86", "R", "100", "LED_LOCK_M", "LED_LOCK"), ("R87", "R", "10k", "+3V3", "BTN_LOCK_M")])
+    s.text((391.16, 388.62), "R83 1k + C78 100n: panel LOCK button to IO7 (ESD, debounce). R84-R86 100R: panel LED lines (cable to touchable panel). R87 10k pull-up [PCB check 1 low 11]", 1.27)
     s.text((391.16, 340.36), "R80/R81 22k + C74/C75 100n: CC to ADC through series R (ESD, boot glitch) [check 2 mid 1]. C76/C77 USB caps DNP, connector side of R4/R5 [HDG USB fig]. R82 UART1 TX series [HDG UART]", 1.27)
     s.text((391.16, 289.56), "R76/C69 SCLK series 0R + cap (DNP) [HDG SPI]. R62 XO series 0R [W5500 fig 3]. R4/R5 USB series 0R [HDG USB]", 1.27)
     s.text((391.16, 292.1), "R77 499R in U0TXD [HDG UART]. R78 TX idle high while U1 boots. R79 1k decouples EN from the panel cable [HDG CHIP_PU]", 1.27)

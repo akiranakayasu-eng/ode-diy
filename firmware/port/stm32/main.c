@@ -101,7 +101,13 @@ int main(void)
         if ((uint32_t)(now - t_link) >= 250) { t_link = now; eth_link_poll(&nif); }
         /* STAT LED: リンクあり = 1 秒ごとに点滅、リンクなし = 速い点滅 */
         uint32_t period = netif_is_link_up(&nif) ? 1000 : 200;
-        if ((uint32_t)(now - t_led) >= period / 2) { t_led = now; board_led_stat(!(GPIOC->ODR & (1u << 11))); }
+        bool win = app_ui_window_left_s() > 0 && netif_is_link_up(&nif);   /* LAN が抜けているときは速い点滅を優先 */
+        if (win) {
+            /* 差し替えの窓が開いている 10 分の間は、D6 STAT を「1 秒ごとに 2 回」点滅（2026-11-23 作者の依頼）。
+             * D5 LOCK はロックの表示のまま触らない（ロックが外れているか分かるように） */
+            uint32_t ph = now % 1000;
+            board_led_stat(ph < 100 || (ph >= 200 && ph < 300));
+        } else if ((uint32_t)(now - t_led) >= period / 2) { t_led = now; board_led_stat(!(GPIOC->ODR & (1u << 11))); }
         /* ボタン（30ms のチャタリング除け）。短押しは離した瞬間にロック解除と全消灯、3 秒の長押しは差し替えの窓 */
         if ((uint32_t)(now - t_btn) >= 30) {
             t_btn = now;
@@ -114,12 +120,14 @@ int main(void)
             if (b && btn_prev && !long_done && (uint32_t)(now - t_press) >= 3000) {
                 long_done = true;
                 app_ui_window_open();
-                board_log("button: 差し替えの窓を 10 分開いた\n");
-                for (int i = 0; i < 6; i++) {       /* 両方の LED を 3 回点滅して知らせる */
-                    board_led_stat(!(i & 1)); plat_led_lock(!(i & 1));
-                    board_delay_ms(100);
-                }
-                plat_led_lock(g_box.owner != OWNER_NONE);
+                board_log("button: 差し替えの窓を 10 分開いた（その間 D6 STAT が 1 秒に 2 回点滅）\n");
+            }
+            /* v0.3.1: そのまま 10 秒まで押し続けたら、ファーム更新モード（USB DFU）で再起動する。
+             * 画面のボタンは外した（2026-11-23 作者「この UI 自体もういらない」）。LED 2 つを一瞬点けてから入る（リセットで消え、更新モードの間は両方消えたまま） */
+            if (b && btn_prev && long_done && (uint32_t)(now - t_press) >= 10000) {
+                board_log("button: 10 秒押されたのでファーム更新モードに入る\n");
+                board_led_stat(true); plat_led_lock(true);
+                plat_enter_dfu();
             }
             btn_prev = b;
         }

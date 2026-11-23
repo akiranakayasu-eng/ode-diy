@@ -2,7 +2,7 @@
 
 ブラウザ（miseru）と箱のあいだの取り決め。ファームの `firmware/app/box_core.c`・`http.c` はこれに従う。
 
-> **ファーム v0.3.0 との違い**: (1) 箱の名前 `name` は `GET /api/settings` でだけ返し、`status` と `GET /api/dmx` にはまだ入れていない（box:check 14 項目のうち名前の項目は通らない）。(2) `/setup` は PIN の変更だけで、ネットワーク・sACN・許可リストの欄は無い（`POST /api/settings` では変えられる）。DHCP への切り替えも `POST /api/settings`（`dhcp=1`）で行う。ボタンでの初期化で IP は 192.168.1.223 に戻る。(3) 画面の差し替えは本体ボタンを 3 秒押してから 10 分の間だけ受け、上限は約 384KB。くわしくは [firmware/README.md](../firmware/README.md)。
+> **ファーム v0.3.6 との違い**: (1) `/setup` にネットワーク・sACN・許可リストの欄は無い（`POST /api/settings` では変えられる）。DHCP への切り替えも `POST /api/settings`（`dhcp=1`）で行う。ボタンでの初期化で IP は 192.168.1.223 に戻る。(2) PIN の変更と画面の差し替えは LOCK ボタン（SW2）を 3 秒押してから 10 分の間だけ受け、画面の上限は約 384KB。くわしくは [firmware/README.md](../firmware/README.md)。
 
 ## 結論
 

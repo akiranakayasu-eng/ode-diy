@@ -124,10 +124,14 @@ static void ws_send(hconn_t *h, uint8_t op, const void *data, u16_t len)
 
 static void ws_send_text(hconn_t *h, const char *s) { ws_send(h, 0x1, s, (u16_t)strlen(s)); }
 
+/* 箱の名前を JSON 用に逃がす（名前は最大 17 バイト、制御文字は \u00XX で 6 倍まで。壊れた UTF-8 は ? に） */
+static void name_esc(char *o, int n) { mj_escape(g_settings.name, o, n); }
+
 static void ws_send_status(hconn_t *h)
 {
-    char buf[160];
-    box_status_json(&g_box, h->conn, APP_MAX_CLIENTS, buf, sizeof(buf));
+    char buf[280], nm[112];
+    name_esc(nm, sizeof nm);
+    box_status_json(&g_box, h->conn, APP_MAX_CLIENTS, nm, buf, sizeof(buf));
     ws_send_text(h, buf);
 }
 
@@ -274,10 +278,11 @@ static void send_file(hconn_t *h, const ui_file_t *a)
 static char dmx_json[2700];
 static void send_api_dmx(hconn_t *h)
 {
-    char holder[64];
+    char holder[64], nm[112];
     box_holder_json(&g_box, -1, holder, sizeof(holder));
-    int n = snprintf(dmx_json, sizeof(dmx_json), "{\"holder\":%s,\"show_mode\":%s,\"max_clients\":%d,\"output\":[",
-                     holder, g_box.show_mode ? "true" : "false", APP_MAX_CLIENTS);
+    name_esc(nm, sizeof nm);
+    int n = snprintf(dmx_json, sizeof(dmx_json), "{\"name\":\"%s\",\"holder\":%s,\"show_mode\":%s,\"max_clients\":%d,\"output\":[",
+                     nm, holder, g_box.show_mode ? "true" : "false", APP_MAX_CLIENTS);
     for (int i = 0; i < DMX_SLOTS; i++) n += snprintf(dmx_json + n, sizeof(dmx_json) - n, i ? ",%u" : "%u", g_box.output[i]);
     n += snprintf(dmx_json + n, sizeof(dmx_json) - n, "]}");
     /* dmx_json は次の要求で上書きされるので、ここでコピーして送る */
@@ -295,7 +300,8 @@ static char settings_json[900];
 static int ipstr(char *o, int n, uint32_t a) { const uint8_t *p = (const uint8_t *)&a; return snprintf(o, n, "%u.%u.%u.%u", p[0], p[1], p[2], p[3]); }
 static void send_api_settings(hconn_t *h)
 {
-    char ip[16], m[16], g[16], allow[ALLOW_MAX * 17 + 2];
+    char ip[16], m[16], g[16], allow[ALLOW_MAX * 17 + 2], nm[112];
+    name_esc(nm, sizeof nm);
     ipstr(ip, sizeof ip, g_settings.ip); ipstr(m, sizeof m, g_settings.mask); ipstr(g, sizeof g, g_settings.gw);
     int an = 0;
     for (int i = 0; i < ALLOW_MAX; i++) if (g_settings.allow[i]) {
@@ -307,11 +313,11 @@ static void send_api_settings(hconn_t *h)
     int n = snprintf(settings_json, sizeof(settings_json),
                      "{\"dhcp\":%s,\"ip\":\"%s\",\"mask\":\"%s\",\"gw\":\"%s\",\"universe\":%u,\"name\":\"%s\","
                      "\"sacn\":%s,\"sacn_universe\":%u,\"allow_on\":%s,\"allow\":\"%s\","
-                     "\"ui\":\"%s\",\"ui_size\":%lu,\"ui_max\":%lu,\"ui_open\":%lu,"
+                     "\"ui\":\"%s\",\"ui_size\":%lu,\"ui_max\":%lu,\"ui_open\":%lu,\"pin_default\":%s,"
                      "\"mac\":\"%02x:%02x:%02x:%02x:%02x:%02x\",\"max_clients\":%d,\"version\":\"%s\"}",
-                     g_settings.dhcp ? "true" : "false", ip, m, g, g_settings.universe, g_settings.name,
+                     g_settings.dhcp ? "true" : "false", ip, m, g, g_settings.universe, nm,
                      g_settings.sacn_off ? "false" : "true", settings_sacn_universe(&g_settings), g_settings.allow_on ? "true" : "false", allow,
-                     g_ui_valid ? "uploaded" : "builtin", (unsigned long)g_ui_len, (unsigned long)UI_MAX, (unsigned long)app_ui_window_left_s(),
+                     g_ui_valid ? "uploaded" : "builtin", (unsigned long)g_ui_len, (unsigned long)UI_MAX, (unsigned long)app_ui_window_left_s(), strcmp(g_settings.pin, "1234") == 0 ? "true" : "false",
                      mac[0], mac[1], mac[2], mac[3], mac[4], mac[5], APP_MAX_CLIENTS, FW_VERSION_STR);
     send_simple(h, "200 OK", "application/json", settings_json, n, 0);
 }
@@ -379,7 +385,11 @@ static void handle_post_settings(hconn_t *h, const char *body)
         if (u < 0 || u > 0x7fff) goto bad;
         s.universe = (uint16_t)u;
     }
-    if (form_get(body, "name", v, sizeof(v)) && v[0]) { memset(s.name, 0, sizeof(s.name)); strncpy(s.name, v, sizeof(s.name) - 1); }
+    if (form_get(body, "name", v, sizeof(v)) && v[0]) {
+        /* 17 バイトまでの正しい UTF-8 だけ受ける（途中で切ると WebSocket の status が UTF-8 でなくなりブラウザが切る） */
+        if (strlen(v) > sizeof(s.name) - 1 || !mj_utf8_ok(v)) goto bad;
+        memset(s.name, 0, sizeof(s.name)); memcpy(s.name, v, strlen(v));
+    }
     if (form_get(body, "sacn", v, sizeof(v))) s.sacn_off = (v[0] != '1');
     if (form_get(body, "sacn_universe", v, sizeof(v)) && v[0]) {
         long u = strtol(v, NULL, 10);
@@ -481,21 +491,31 @@ static void handle_request(hconn_t *h, char *req, int len)
         else send_simple(h, "404 Not Found", "text/plain", "no ui", 5, 0);
         return;
     }
-    if (strcmp(method, "POST") == 0 && strcmp(path, "/api/dfu") == 0) {
-        /* ファーム更新モード: 返事を送り終えたら USB DFU（ROM のブートローダ）で再起動する */
-        /* v0.3.0: 本体ボタンの長押しで開く窓の間だけ、PIN も要る */
-        char pin[24];
-        if (!app_ui_window_left_s()) { send_json(h, "403 Forbidden", ERR_BUTTON); return; }
-        if (!form_get(query, "pin", pin, sizeof(pin)) || !pin_ok(pin)) { send_json(h, "403 Forbidden", "{\"ok\":false,\"error\":\"pin\"}"); return; }
-        int n = snprintf(post_reply, sizeof(post_reply), "{\"ok\":true,\"mode\":\"dfu\"}");
-        send_simple(h, "200 OK", "application/json", post_reply, n, 2);
-        return;
-    }
+    /* POST /api/dfu は v0.3.1 で外した。ファーム更新モードは本体の LOCK ボタン（SW2）を 10 秒押し続けて入る */
     if (strcmp(method, "POST") == 0 && strcmp(path, "/api/ui/reset") == 0) {
         /* v0.3.0: PIN は要らない。本体ボタンの長押しで開く窓の間だけ */
         if (!app_ui_window_left_s()) { send_json(h, "403 Forbidden", ERR_BUTTON); return; }
         ui_reset();
         send_json(h, "200 OK", "{\"ok\":true,\"ui\":\"builtin\"}");
+        return;
+    }
+    if (strcmp(method, "POST") == 0 && strcmp(path, "/api/pin") == 0) {
+        /* v0.3.1: 新しい PIN だけを入れる。いまの PIN は要らない。本体の LOCK ボタン（SW2）の長押しで開く窓の間だけ
+         * （2026-11-23 作者「PIN は miseru の Admin のため。古い PIN を忘れたら新しい PIN を入れるだけ」）。再起動しない */
+        if (!app_ui_window_left_s()) { send_json(h, "403 Forbidden", ERR_BUTTON); return; }
+        char *body = strstr(req, "\r\n\r\n");
+        char v[40];
+        if (!body || !form_get(body + 4, "newpin", v, sizeof(v)) || !v[0] || strlen(v) >= sizeof(g_settings.pin)) {
+            send_json(h, "400 Bad Request", "{\"ok\":false,\"error\":\"value\"}"); return;
+        }
+        settings_t s = g_settings;
+        memset(s.pin, 0, sizeof(s.pin));
+        strcpy(s.pin, v);
+        plat_settings_save(&s);
+        g_settings = s;
+        memset(g_box.pin, 0, sizeof(g_box.pin));
+        strncpy(g_box.pin, g_settings.pin, sizeof(g_box.pin) - 1);
+        send_json(h, "200 OK", "{\"ok\":true}");
         return;
     }
     if (strcmp(method, "POST") == 0 && strcmp(path, "/api/settings") == 0) {

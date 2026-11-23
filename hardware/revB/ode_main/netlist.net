@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/w/ode_main_revB.kicad_sch")
-		(date "2026-11-23T02:54:44")
+		(date "2026-11-23T03:30:29")
 		(tool "Eeschema 10.0.8")
 		(sheet
 			(number "1")
@@ -5234,6 +5234,60 @@
 			)
 		)
 		(comp
+			(ref "R87")
+			(value "10k")
+			(footprint "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder")
+			(fields
+				(field
+					(name "Footprint") "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description")
+				)
+			)
+			(libsource
+				(lib "ode_main_revB")
+				(part "R")
+				(description "Resistor")
+			)
+			(property
+				(name "Sheetname")
+				(value "ode_main_revB")
+			)
+			(property
+				(name "Sheetfile")
+				(value "ode_main_revB.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "R res resistor")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "R_*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "1b127be2-a4a2-1cce-1647-f7f2fe0b25bf")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
 			(ref "R101")
 			(value "1k")
 			(footprint "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder")
@@ -7674,6 +7728,11 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "R87")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
 				(ref "U1")
 				(pin "2")
 				(pinfunction "3V3_2")
@@ -7950,6 +8009,11 @@
 			)
 			(node
 				(ref "R83")
+				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "R87")
 				(pin "2")
 				(pintype "passive")
 			)

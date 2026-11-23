@@ -167,11 +167,11 @@ int box_holder_json(const box_core_t *b, int conn, char *buf, int size)
     return snprintf(buf, size, "null");
 }
 
-int box_status_json(const box_core_t *b, int conn, int max_clients, char *buf, int size)
+int box_status_json(const box_core_t *b, int conn, int max_clients, const char *name_esc, char *buf, int size)
 {
     char h[64];
     box_holder_json(b, conn, h, sizeof(h));
     bool teacher = conn >= 0 && conn < BOX_MAX_CONN && b->conns[conn].used && b->conns[conn].teacher;
-    return snprintf(buf, size, "{\"t\":\"status\",\"holder\":%s,\"show_mode\":%s,\"teacher\":%s,\"max_clients\":%d}",
-                    h, b->show_mode ? "true" : "false", teacher ? "true" : "false", max_clients);
+    return snprintf(buf, size, "{\"t\":\"status\",\"name\":\"%s\",\"holder\":%s,\"show_mode\":%s,\"teacher\":%s,\"max_clients\":%d}",
+                    name_esc, h, b->show_mode ? "true" : "false", teacher ? "true" : "false", max_clients);
 }

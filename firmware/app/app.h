@@ -7,7 +7,7 @@
 #include "box_core.h"
 #include "lwip/netif.h"
 
-#define FW_VERSION_STR "0.3.0"
+#define FW_VERSION_STR "0.3.6"
 #ifndef HTTP_PORT
 #define HTTP_PORT 80
 #endif

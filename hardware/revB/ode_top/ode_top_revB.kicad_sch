@@ -1458,7 +1458,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TO MAIN J6 (JST PH 8P)"
+		(property "Value" "B8B-PH-K-S"
 			(at 38.1 76.2 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1718,14 +1718,14 @@
 			)
 		)
 	)
-	(text "J1 pin order = main board J6 (1:1 cable). 8 = spare"
+	(text "J1 pin n = main J6 pin n (cable pin n to pin n). 8 = spare"
 		(exclude_from_sim no)
 		(at 38.1 88.9 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left bottom)
 		)
-		(uuid "86ee7573-3d1d-8c25-47bd-1361c0acf301")
+		(uuid "b61b3604-4042-3b12-a982-733dc6044e2f")
 	)
 	(symbol
 		(lib_id "ode_top_revB:R")
@@ -1747,7 +1747,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "680"
+		(property "Value" "330"
 			(at 104.14 45.72 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1881,6 +1881,15 @@
 		)
 		(uuid "b72ac743-9eb7-3f9f-dbd5-3ef8c0f03798")
 	)
+	(text "PWR"
+		(exclude_from_sim no)
+		(at 106.68 58.42 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left bottom)
+		)
+		(uuid "43ad6e0c-def3-76a3-3d72-d5bbcbe56e89")
+	)
 	(symbol
 		(lib_id "ode_top_revB:LED")
 		(at 101.6 53.34 90)
@@ -1901,7 +1910,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "PWR"
+		(property "Value" "OSG80805C1C"
 			(at 105.41 54.61 270)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2047,7 +2056,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "680"
+		(property "Value" "220"
 			(at 124.46 45.72 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2117,6 +2126,15 @@
 		)
 		(uuid "729ee99a-af76-7fc6-d7d2-dcfbe4a1b55d")
 	)
+	(text "LAN"
+		(exclude_from_sim no)
+		(at 127 58.42 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left bottom)
+		)
+		(uuid "7b0576f8-f47b-a18e-fe3b-b2c379ebece9")
+	)
 	(symbol
 		(lib_id "ode_top_revB:LED")
 		(at 121.92 53.34 90)
@@ -2137,7 +2155,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "LAN"
+		(property "Value" "OSG80805C1C"
 			(at 125.73 54.61 270)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2353,6 +2371,15 @@
 		)
 		(uuid "797f358f-ed6c-c7fc-2e1b-eb81a7a58a50")
 	)
+	(text "DMX"
+		(exclude_from_sim no)
+		(at 147.32 58.42 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left bottom)
+		)
+		(uuid "d8a8dfa2-7881-2df8-23b9-dd9e4de822bc")
+	)
 	(symbol
 		(lib_id "ode_top_revB:LED")
 		(at 142.24 53.34 90)
@@ -2373,7 +2400,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "DMX"
+		(property "Value" "OSY50805C1C"
 			(at 146.05 54.61 270)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2589,6 +2616,15 @@
 		)
 		(uuid "10c64047-dd78-28d9-640a-f7b10859f3c3")
 	)
+	(text "LOCK"
+		(exclude_from_sim no)
+		(at 167.64 58.42 0)
+		(effects
+			(font (size 1.27 1.27))
+			(justify left bottom)
+		)
+		(uuid "2e98d6d6-e5d1-6c13-2516-49ce2d820674")
+	)
 	(symbol
 		(lib_id "ode_top_revB:LED")
 		(at 162.56 53.34 90)
@@ -2609,7 +2645,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "LOCK"
+		(property "Value" "OSR50805C1C"
 			(at 166.37 54.61 270)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2735,14 +2771,14 @@
 			)
 		)
 	)
-	(text "D1 PWR from +3V3. D2-D4 driven high by main IO4 / IO5 / IO6. 680R ~2mA (same as rev A)"
+	(text "D1 PWR from +3V3. D2-D4 driven high by main IO4 / IO5 / IO6 via R84-R86 100R. Yellow-green R1 330 / R2 220 (~4mA), yellow / red 680 (~1.6mA)"
 		(exclude_from_sim no)
 		(at 96.52 76.2 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left bottom)
 		)
-		(uuid "0d01f204-f966-7a4c-5426-c66f9768bdd7")
+		(uuid "de80766d-5a4c-b054-4ac7-459e5542601f")
 	)
 	(symbol
 		(lib_id "ode_top_revB:SW_Push")
@@ -2764,7 +2800,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "LOCK"
+		(property "Value" "TL3342F160QG/TR"
 			(at 106.68 102.87 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2918,7 +2954,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "RESET"
+		(property "Value" "TL3342F160QG/TR"
 			(at 139.7 102.87 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3052,14 +3088,14 @@
 			)
 		)
 	)
-	(text "SW1 LOCK: main IO7 internal pull-up (R83/C78 on main). SW2 RESET: pressed with a clip, main R79 1k to EN"
+	(text "SW1 LOCK: main IO7 internal pull-up (R83/C78 on main). SW2 RESET: main R79 1k to EN"
 		(exclude_from_sim no)
 		(at 96.52 109.22 0)
 		(effects
 			(font (size 1.27 1.27))
 			(justify left bottom)
 		)
-		(uuid "ba0ab7af-bf2c-66eb-cb1b-4c52e12b3bb3")
+		(uuid "1702e63e-af4e-f62b-13bc-77b0f824700b")
 	)
 	(symbol
 		(lib_id "ode_top_revB:MountingHole")

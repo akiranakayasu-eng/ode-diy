@@ -3,7 +3,8 @@ Copyright 2026 Akira Nakayasu
 SPDX-License-Identifier: CERN-OHL-P-2.0
 
 The hardware designs in this directory (schematics, PCB layouts, Gerber files,
-case plates and their documentation) are licensed under the CERN Open Hardware
+case plates and their documentation), together with the board images in
+../docs/img/, are licensed under the CERN Open Hardware
 Licence Version 2 - Permissive (see ../LICENSE-HARDWARE).
 
 Scripts in hardware/**/scripts/ and other *.py / *.sh files are licensed under

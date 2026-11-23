@@ -43,8 +43,8 @@ BAND = 7.75
 YS = 47.0                               # Uk1 の中心 y = 帯の中心
 BY0, BY1 = YS - BAND / 2, YS + BAND / 2   # 43.125 / 50.875
 GX0 = XK0 - BAND / 2                    # 左の列 (一次側) の右端 = 縦の帯の左端 42.125
-HOLES = [(3.5, H - 3.5), (W - 3.5, H - 3.5), (W - 3.5, 58.0), (3.5, 45.0)]
-U1_XY = (38.0, H - 6.75)                 # ESP32 モジュールの原点。180 度でアンテナの付け根 = 下辺
+HOLES = [(3.5, 59.5), (W - 3.5, 58.0), (W - 3.5, H - 3.5), (49.5, H - 3.5)]   # 2 版: 左後ろ (アンテナ側) には置かない
+U1_XY = (10.5, H - 6.75)                 # 2 版: 左後ろの角。モジュールの左端 x 0.75、180 度でアンテナの付け根 = 下辺
 
 
 def col(k):
@@ -158,17 +158,17 @@ def placement():
     P["R1"] = (3.5, 16.5, 90)           # CC1 5.1k
     P["R2"] = (9.5, 16.5, 90)           # CC2 5.1k
     P["F1"] = (6.0, 21.0, 0)            # PTC。U6 (発熱) から 35mm 離す
-    P["C1"] = (6.0, 24.2, 0)
+    P["C1"] = (6.0, 24.2, 180)          # 2 版: 1 番 (VBUS_F) を右 = F1.2 の真下
     P["Q1"] = (6.0, 27.8, 270)          # AO3401A
     P["C2"] = (3.0, 31.5, 90)
     P["R3"] = (9.0, 31.5, 90)
     P["C3"] = (6.0, 35.5, 0)            # 22u (+5V) 1210
-    P["C4"] = (6.0, 51.4, 0)
-    P["U6"] = (9.0, 57.0, 0)            # MCP1826 SOT-223 (タブ = +3V3)
-    P["C5"] = (5.5, 63.5, 0)            # 10u (+3V3) 1210
-    P["C6"] = (11.0, 63.5, 0)
-    P["R29"] = (4.0, 67.5, 0)           # PWR LED
-    P["D4"] = (8.5, 67.5, 180)
+    P["C4"] = (5.2, 41.5, 0)            # LDO 入力 (+5V ゾーンの中)
+    P["U6"] = (7.0, 47.0, 0)            # MCP1826 SOT-223 (タブ = GND、F.Cu の GND ゾーンで放熱)
+    P["C5"] = (3.2, 53.1, 270)          # 10u (+3V3) 1210、1 番 = 上 (+3V3 ゾーン)
+    P["C6"] = (8.0, 55.0, 0)
+    P["R29"] = (23.0, 55.0, 0)          # PWR LED
+    P["D4"] = (27.0, 55.0, 180)
     # --- RJ45 と W5500 (rev A の RJ45 と同じ位置)
     P["J5"] = (32.5, 17.73, 180)
     P["R67"] = (15.5, 10.0, 270)        # LINK LED
@@ -194,25 +194,25 @@ def placement():
     P["C55"] = (21.8, 30.5, 0)
     P["C56"] = (21.8, 32.7, 0)
     P["C57"] = (21.8, 34.9, 0)
-    P["C53"] = (21.8, 37.1, 0)          # 1V2O 10n
-    P["C54"] = (21.8, 39.3, 0)          # TOCAP 4.7u
+    P["C53"] = (23.0, 35.6, 90, "B")    # 1V2O 10n (22 番の裏)
+    P["C54"] = (25.2, 33.8, 90, "B")    # TOCAP 4.7u (20 番の裏)
     P["C58"] = (29.0, 30.6, 0, "B")
     P["C59"] = (29.0, 33.0, 0, "B")
     P["C60"] = (29.0, 35.4, 0, "B")
     # 水晶 (下辺の 30 / 31 番)
-    P["Y2"] = (25.0, 44.0, 0)
-    P["C51"] = (21.0, 43.0, 90)         # X25_IN 18p
-    P["C52"] = (21.0, 47.0, 90)         # X25_OUT 18p
-    P["R60"] = (26.8, 40.8, 0)          # 1M XI-XO
-    P["R62"] = (28.5, 44.5, 90)         # XO 0R
-    P["C67"] = (30.0, 40.5, 90)          # +3V3 (28 番)
+    P["Y2"] = (28.4, 44.5, 270)         # 1 番 (XI) = 左上、3 番 (XO 側) = 右下
+    P["C51"] = (25.2, 43.6, 90)         # X25_IN 18p
+    P["C52"] = (29.4, 48.6, 0)         # X25_OUT 18p
+    P["R60"] = (29.9, 41.0, 0)          # 1M XI-XO
+    P["R62"] = (31.6, 44.0, 90)         # XO 0R (31 番の下。32-36 番の引き出しは右に空ける)
+    P["C67"] = (25.0, 39.4, 0)          # +3V3 (28 番)
     P["C68"] = (17.5, 46.5, 90)
     # SPI のプルアップと SCLK の直列 (下辺の右)
-    P["R76"] = (32.5, 41.5, 90)         # SCLK 0R
-    P["C69"] = (35.0, 41.5, 90)         # SCLK DNP
+    P["R76"] = (32.5, 49.0, 90)         # SCLK 0R
+    P["C69"] = (34.8, 49.0, 90)         # SCLK DNP
     P["R64"] = (37.5, 36.5, 90)         # RST pull-up
     P["R65"] = (40.0, 36.5, 90)         # INT pull-up
-    P["R66"] = (37.5, 41.5, 90)         # CS pull-up
+    P["R66"] = (37.1, 49.0, 90)         # CS pull-up
     # --- ポート 1 (rev A と同じ)
     c = cx(1)
     P["J11"] = (c - 4.0, 12.65, 90)
@@ -240,37 +240,36 @@ def placement():
     P["C73"] = (65.0, 60.5, 270)
     P["R78"] = (54.5, 64.0, 0)          # TX_M pull-up
     P["R74"] = (61.5, 64.0, 0)          # DE_M pull-down
-    # --- ESP32-S3 (後ろの辺)
+    # --- ESP32-S3 (2 版: 左後ろの角。右辺 x 19.25 = 2-14 番、下辺 y 64.75 = 15-26 番、左辺 x 1.75 = 27-40 番)
     P["U1"] = (U1_XY[0], U1_XY[1], 180)
-    P["C31"] = (50.5, 82.0, 0)          # 22u 1210 (2 番 3V3 の横)
-    P["C32"] = (50.0, 78.9, 0)
-    P["R31"] = (58.9, 82.2, 0)          # EN 10k
-    P["C33"] = (55.0, 82.2, 0)          # EN 1u
-    P["R79"] = (62.8, 82.2, 0)          # EN -> EN_PANEL 1k
-    P["SW1"] = (68.6, 66.5, 0)          # RESET
+    P["C31"] = (23.5, 80.8, 180, "B")   # 22u 1210 (2 番 3V3 の近く、裏。1 番 = 左)
+    P["C32"] = (23.0, 82.6, 0)
+    P["C33"] = (23.0, 80.0, 0)          # EN 1u (3 番の横)
+    P["R31"] = (27.0, 80.0, 0)          # EN 10k
+    P["R79"] = (31.0, 80.0, 0)          # EN -> EN_PANEL 1k
+    P["SW1"] = (41.5, 80.0, 0)          # RESET
     # USB (13 / 14 番の横)
-    P["R4"] = (50.5, 66.5, 180)         # D+ 0R (2 = U1 側)
-    P["R5"] = (50.5, 68.7, 180)         # D- 0R
-    P["C76"] = (54.4, 66.5, 0)         # DNP
-    P["C77"] = (54.4, 68.7, 0)
+    P["R4"] = (23.0, 66.0, 180)         # D+ 0R (2 = U1 側)
+    P["R5"] = (23.0, 68.2, 180)         # D- 0R
+    P["C76"] = (27.0, 66.0, 0)          # DNP
+    P["C77"] = (27.0, 68.2, 0)
+    P["R34"] = (23.0, 70.8, 0)          # STAT LED (11 番の横)
+    P["D6"] = (27.0, 70.8, 180)
     # 天板 (4-7 番の横)
-    P["J6"] = (55.0, 72.5, 0)           # JST PH 8P
-    P["R83"] = (53.0, 77.9, 90)
-    P["C78"] = (55.5, 77.9, 90)
-    P["R84"] = (58.0, 77.9, 90)
-    P["R85"] = (60.5, 77.9, 90)
-    P["R86"] = (63.0, 77.9, 90)
-    P["R34"] = (58.4, 67.5, 0)          # STAT LED
-    P["D6"] = (62.2, 67.5, 180)
-    # 左の後ろ: BOOT、UART、CC
-    P["SW3"] = (20.0, 58.5, 0)          # BOOT
-    P["R32"] = (26.0, 61.5, 90)         # BOOT pull-up
-    P["R77"] = (25.5, 76.0, 0)          # UART TX 499R
-    P["J4"] = (13.0, 81.5, 90)          # UART 1x03
-    P["R80"] = (18.0, 72.0, 90)         # CC1 22k
-    P["R81"] = (20.5, 72.0, 90)         # CC2 22k
-    P["C74"] = (24.0, 80.8, 90)         # CC1_ADC 100n
-    P["C75"] = (26.5, 80.8, 90)         # CC2_ADC 100n
+    P["J6"] = (31.5, 71.0, 0)           # JST PH 8P
+    for k, ref in enumerate(("R83", "R84", "R85", "R86", "R87")):
+        P[ref] = (21.3 + 3.2 * k, 76.5, 90)
+    P["C78"] = (22.9, 76.5, 90, "B")    # BTN_LOCK_M 100n (R83 と R84 の間の裏)
+    # BOOT (27 番 = 左辺) はモジュールの上、UART はモジュールの右
+    P["SW3"] = (35.5, 57.0, 0)          # BOOT (モジュールの上は 15-26 番の引き出しに空ける)
+    P["R32"] = (4.0, 69.0, 90, "B")     # BOOT pull-up (27 番の横、裏)
+    P["J4"] = (22.0, 60.0, 90)          # UART 1x03
+    P["R77"] = (25.0, 63.0, 0)          # UART TX 499R
+    # CC の分圧はモジュールの下 (裏、38 / 39 番の横)
+    P["R80"] = (8.0, 80.0, 0, "B")      # CC1 22k
+    P["C74"] = (4.0, 80.0, 180, "B")      # CC1_ADC 100n
+    P["R81"] = (8.0, 82.4, 0, "B")      # CC2 22k
+    P["C75"] = (4.0, 82.4, 180, "B")      # CC2_ADC 100n
     return P
 
 
@@ -327,7 +326,7 @@ def build():
             if pad.GetAttribute() == pcbnew.PAD_ATTRIB_PTH and nm in PLANES:
                 pad.SetLocalZoneConnection(pcbnew.ZONE_CONNECTION_FULL)
             # IC のピン列の GND_ISO / GND2_PWR は両隣に挟まれてスポークが 1 本しか立たない (starved_thermal)
-            if ref.startswith("U") and nm in tuple(GISO.values()) + tuple(G2.values()):
+            if ref.startswith("U") and nm in tuple(GISO.values()) + tuple(G2.values()) + (GND,):
                 pad.SetLocalZoneConnection(pcbnew.ZONE_CONNECTION_FULL)
         b.Add(fp)
         if side == "B":                       # Flip は基板に入れてから (前だと落ちる)
@@ -389,10 +388,47 @@ def g2_routes(k):
     return segs, [(n, v1), (n, v2)]
 
 
+# 2 版: 5V の主経路は手で太く引く (PCB 1 版チェック 中 2)。[(net, [点], 幅)] すべて F.Cu
+PWR_ROUTES = [
+    ("/VBUS", [(6.05, 8.05), (6.05, 10.2)], 0.5),
+    ("/VBUS", [(6.05, 10.2), (2.2, 10.2), (2.2, 21.0), (4.97, 21.0)], 0.8),
+    ("/VBUS_F", [(7.03, 21.0), (7.04, 24.2)], 0.8),
+    ("/VBUS_F", [(7.04, 24.2), (7.04, 25.55), (5.05, 25.55), (5.05, 26.86)], 0.6),
+    ("+5V", [(6.0, 28.74), (6.0, 33.0)], 0.6),
+    ("+5V", [(6.0, 33.0), (4.44, 33.0), (4.44, 35.5)], 0.8),
+]
+# LDO まわりの F.Cu ゾーン (PCB 1 版チェック 中 3 / 中 4)。(net, 矩形, 優先度)
+F_ZONES = [
+    ("+5V", (0.6, 34.0, 5.6, 45.7), 3),
+    (V33, (0.6, 48.3, 5.6, 53.4), 3),
+]
+GND_LDO = [(0.6, 45.95), (6.2, 45.95), (6.2, 42.6), (16.0, 42.6), (16.0, 53.0), (6.2, 53.0),
+           (6.2, 48.1), (0.6, 48.1)]
+GND_LDO_RECTS = [(0.6, 45.95, 6.2, 48.1), (6.2, 42.6, 16.0, 53.0)]
+V33_LDO_VIAS = [(1.25, 48.9), (1.25, 52.4), (5.25, 51.0), (5.25, 52.4), (3.2, 53.1)]
+GND_LDO_VIAS = [(1.5, 47.0)] + [(x, 43.6 + 1.4 * j) for x in (12.3, 13.5, 14.7) for j in range(7)]
+
+
+# 3 版: 1V2O を短く (PCB 2 版チェック 低 2)。22 番 -> 本体の内側のビア -> 裏の C53.1
+V12_ROUTES = [("/1V2O", [(25.4, 34.75), (26.1, 34.75), (26.1, 35.9)], pcbnew.F_Cu, W_SIG),
+              ("/1V2O", [(26.1, 35.9), (26.1, 36.64), (23.0, 36.64)], pcbnew.B_Cu, W_SIG)]
+V12_VIAS = [("/1V2O", (26.1, 35.9))]
+# 3 版: モジュールの下の裏の C74・C75 の GND (ベタの最小幅 0.5mm で裏のベタが届かなくなった)
+CC_GND_ROUTES = [(GND, [(5.0375, 80.0), (5.0375, 82.4)], pcbnew.B_Cu, 0.4)]
+CC_GND_VIAS = [(GND, (5.0375, 81.2))]
+
+
+def zone_rects():
+    """F.Cu ゾーンを配線器とスティッチから見た障害 (net, x0, y0, x1, y1)"""
+    return [(n, *r) for n, r, _ in F_ZONES] + [(GND, *r) for r in GND_LDO_RECTS]
+
+
 def hand_routes(b):
     out = []
     for k in range(1, NPORT + 1):
         out += g2_routes(k)[0]
+    out += [(n, path, pcbnew.F_Cu, w) for n, path, w in PWR_ROUTES]
+    out += V12_ROUTES + CC_GND_ROUTES
     return out
 
 
@@ -400,6 +436,8 @@ def hand_vias(b):
     out = []
     for k in range(1, NPORT + 1):
         out += g2_routes(k)[1]
+    out += [(V33, p) for p in V33_LDO_VIAS] + [(GND, p) for p in GND_LDO_VIAS]
+    out += V12_VIAS + CC_GND_VIAS
     return out
 
 
@@ -444,6 +482,7 @@ def stitches(b):
         for p, q in zip(path, path[1:]):
             cx_, cy_, ww, hh = rect_from_seg(p, q, w)
             pads.append((net, cx_ - ww / 2, cy_ - hh / 2, cx_ + ww / 2, cy_ + hh / 2))
+    pads += zone_rects()
     for net, p, v in c09_links(b):
         r = VIA_D / 2
         pads.append((net, v[0] - r, v[1] - r, v[0] + r, v[1] + r))
@@ -600,12 +639,15 @@ def dump_geom(b, pts):
             cx_, cy_, ww, hh = rect_from_seg(p, q, w)
             pads.append(dict(ref="HAND", pad="%s%d_%d" % (net, j, k), net=net, x=cx_, y=cy_, w=ww, h=hh,
                              rot=0.0, thru=False, layers=["F" if layer == pcbnew.F_Cu else "B"]))
+    for k, (net, x0, y0, x1, y1) in enumerate(zone_rects()):
+        pads.append(dict(ref="ZONE", pad="z%d" % k, net=net, x=(x0 + x1) / 2, y=(y0 + y1) / 2,
+                         w=x1 - x0, h=y1 - y0, rot=0.0, thru=False, layers=["F"]))
     for k, (net, (vx, vy)) in enumerate(hand_vias(b)):
         pads.append(dict(ref="HAND", pad="via%d" % k, net=net, x=vx, y=vy, w=VIA_D, h=VIA_D,
                          rot=0.0, thru=True, layers=["F", "B"]))
     g = dict(pads=pads, outline=[list(p) for p in pts], wide_nets=PWR_NETS, w_wide=W_PWR,
              w_sig=W_SIG, keepouts=keepouts(), soft_keepouts=soft_keepouts(),
-             pour_nets=list(PLANES), skip_nets=[], route_groups=[], fixed_nets=list(G2.values()))
+             pour_nets=list(PLANES), skip_nets=[], route_groups=[], fixed_nets=list(G2.values()) + ["/1V2O"])
     os.makedirs(os.path.dirname(GEOM), exist_ok=True)
     json.dump(g, open(GEOM, "w"), indent=1)
     nn = {p["net"] for p in pads if p["net"] and p["net"] not in PLANES
@@ -637,7 +679,17 @@ def add_routes(b, nets):
         return 0, 0
     r = json.load(open(ROUTES))
     lay = {"F": pcbnew.F_Cu, "B": pcbnew.B_Cu}
+    # 手で引いた線・ゾーンの中で閉じた配線器の切れ端 (両端とも同じネットの手の線の中) は捨てる
+    own = [("F" if L == pcbnew.F_Cu else "B", n, *rect_from_seg(p, q, w)) for n, path, L, w in hand_routes(b)
+           for p, q in zip(path, path[1:])]
+    own += [("F", n, (x0 + x1) / 2, (y0 + y1) / 2, x1 - x0, y1 - y0) for n, x0, y0, x1, y1 in zone_rects()]
+
+    def inside(layer, net, x, y):
+        return any(L == layer and n == net and abs(x - cx_) <= ww / 2 + 1e-3 and abs(y - cy_) <= hh / 2 + 1e-3
+                   for L, n, cx_, cy_, ww, hh in own)
     for x1, y1, x2, y2, w, layer, net in r["tracks"]:
+        if inside(layer, net, x1, y1) and inside(layer, net, x2, y2):
+            continue
         add_track(b, nets, (x1, y1), (x2, y2), w, lay[layer], net)
     for x, y, d, drill, net in r["vias"]:
         add_via(b, nets, (x, y), net)
@@ -705,6 +757,18 @@ def add_zones(b, nets):
     prim = [(m, m), (GX0, m), (GX0, BY1), (W - m, BY1), (W - m, H - m), (m, H - m)]
     _zone_style(_zone(b, pcbnew.In1_Cu, prim, nets[GND], 0))
     _zone_style(_zone(b, pcbnew.In2_Cu, prim, nets[V33], 0))
+    # 2 版: 外層の GND ベタ (PCB 1 版チェック 低 4) と LDO まわりのゾーン
+    for layer in (pcbnew.F_Cu, pcbnew.B_Cu):
+        z = _zone(b, layer, prim, nets[GND], 0)
+        _zone_style(z)
+        z.SetMinThickness(pcbnew.FromMM(0.5))   # 3 版チェック 低 1: 幅 0.3mm の細い帯 (ビアが打てない) を塗らない
+    for n, r, prio in F_ZONES:
+        z = _zone(b, pcbnew.F_Cu, _rect(*r), nets[n], prio)
+        _zone_style(z)
+        z.SetPadConnection(pcbnew.ZONE_CONNECTION_FULL)
+    z = _zone(b, pcbnew.F_Cu, GND_LDO, nets[GND], 2)
+    _zone_style(z)
+    z.SetPadConnection(pcbnew.ZONE_CONNECTION_FULL)
     for k in range(1, NPORT + 1):
         ix0, ix1 = island(k)
         for layer in CU4:
@@ -825,18 +889,120 @@ def labels(b):
     for j, s in enumerate(("G", "D-", "D+")):
         out.append(silk(b, s, c + 4.0 - 2.5 * j, 27.6, 0.8))
     out.append(silk(b, "ISO", c + 1.0, 33.6, 0.8))
-    out.append(silk(b, "ISOLATION 2.5kV", 71.3, YS, 0.8, 90))
-    out.append(silk(b, "USB-C 5V", 2.0, 9.0, 0.8, 90))
+    out.append(silk(b, "ISO", 71.3, YS, 0.8, 90))
+    out.append(silk(b, "USB-C 5V", 1.2, 14.0, 0.8, 90))
     out.append(silk(b, "ETH", 40.5, 12.0, 1.0, 90))
-    out.append(silk(b, "PWR", 13.0, 67.5, 0.8, 0, L))
-    out.append(silk(b, "G T R", 15.5, 79.0, 0.8))
-    out.append(silk(b, "BOOT", 20.0, 62.6, 0.8))
-    out.append(silk(b, "RESET", 67.5, 69.9, 0.8))
-    out.append(silk(b, "STAT", 62.2, 65.6, 0.8))
-    out.append(silk(b, "ode_main B", 3.0, 72.5, 1.0, 0, L))
-    out.append(silk(b, "Art-Net/sACN to DMX512", 3.0, 74.5, 0.8, 0, L))
-    out.append(silk(b, "ANTENNA ->", 38.0, H - 1.2, 0.8))
+    out.append(silk(b, "PWR", 27.0, 53.4, 0.8))
+    out.append(silk(b, "G T R", 24.54, 57.5, 0.8))
+    out.append(silk(b, "BOOT", 35.5, 53.2, 0.8))
+    out.append(silk(b, "RESET", 41.5, 75.6, 0.8))
+    out.append(silk(b, "STAT", 27.0, 72.7, 0.8))
+    out.append(silk(b, "ode_main B", 50.0, 70.0, 1.0, 0, L))
+    out.append(silk(b, "DMX512 node", 50.0, 72.0, 0.8, 0, L))
+    out.append(silk(b, "ANTENNA: back edge", 10.5, 63.1, 0.8))
     return out
+
+
+def gnd_stitch(b, nets, off, pitch=1.5, spacing=5.0):
+    """3 版 (PCB 2 版チェック 低 3): 塗ったあとで、F.Cu と B.Cu の両方の GND ベタの中に GND ビアを打つ。
+    外層の細い切れ端が 1 本のビアだけでつながるのを防ぐ。"""
+    zs = [z for z in b.Zones() if not z.GetIsRuleArea() and z.GetNetname() == GND
+          and z.GetLayer() in (pcbnew.F_Cu, pcbnew.B_Cu)]
+    polys = {L: [z.GetFilledPolysList(L) for z in zs if z.GetLayer() == L] for L in (pcbnew.F_Cu, pcbnew.B_Cu)}
+    r = VIA_D / 2 + CLR + 0.05
+    ring = [(r * math.cos(a * math.pi / 4), r * math.sin(a * math.pi / 4)) for a in range(8)] + [(0, 0)]
+    ox, oy = off.x, off.y
+    have = [(pcbnew.ToMM(v.GetPosition().x - ox), pcbnew.ToMM(v.GetPosition().y - oy))
+            for v in b.GetTracks() if v.Type() == pcbnew.PCB_VIA_T]
+    gvias = [p for p, v in zip(have, [t for t in b.GetTracks() if t.Type() == pcbnew.PCB_VIA_T])
+             if v.GetNetname() == GND]
+    pads = []
+    for fp in b.Footprints():
+        for p in fp.Pads():
+            bb = p.GetBoundingBox()
+            pads.append((pcbnew.ToMM(bb.GetLeft() - ox), pcbnew.ToMM(bb.GetTop() - oy),
+                         pcbnew.ToMM(bb.GetRight() - ox), pcbnew.ToMM(bb.GetBottom() - oy)))
+
+    def filled(L, x, y):
+        return any(ps.Contains(pcbnew.VECTOR2I(pcbnew.FromMM(x + dx) + ox, pcbnew.FromMM(y + dy) + oy))
+                   for dx, dy in ring for ps in polys[L]) and all(
+            any(ps.Contains(pcbnew.VECTOR2I(pcbnew.FromMM(x + dx) + ox, pcbnew.FromMM(y + dy) + oy))
+                for ps in polys[L]) for dx, dy in ring)
+    n = 0
+    y = 1.5
+    while y < H - 1.0:
+        x = 1.5
+        while x < W - 1.0:
+            ok = (primary_ok(x, y, VIA_D / 2)
+                  and all(math.hypot(x - hx, y - hy) >= 3.6 + r for hx, hy in HOLES)
+                  and all(math.hypot(x - vx, y - vy) >= 0.9 for vx, vy in have)
+                  and all(math.hypot(x - vx, y - vy) >= spacing for vx, vy in gvias)
+                  and not any(x0 - r < x < x1 + r and y0 - r < y < y1 + r for x0, y0, x1, y1 in pads)
+                  and filled(pcbnew.F_Cu, x, y) and filled(pcbnew.B_Cu, x, y))
+            if ok:
+                add_via(b, nets, (x + pcbnew.ToMM(ox), y + pcbnew.ToMM(oy)), GND)
+                have.append((x, y))
+                gvias.append((x, y))
+                n += 1
+            x += pitch
+        y += pitch
+    # 2 回目: ビアが 1 本以下の切れ端、長い (10mm 超) のにビアが 2 本以下の切れ端に細かい格子で足す
+    segs = {L: [] for L in (pcbnew.F_Cu, pcbnew.B_Cu)}
+    for t in b.GetTracks():
+        if t.Type() == pcbnew.PCB_TRACE_T and t.GetLayer() in segs and t.GetNetname() != GND:
+            segs[t.GetLayer()].append((pcbnew.ToMM(t.GetStart().x - ox), pcbnew.ToMM(t.GetStart().y - oy),
+                                       pcbnew.ToMM(t.GetEnd().x - ox), pcbnew.ToMM(t.GetEnd().y - oy),
+                                       pcbnew.ToMM(t.GetWidth()) / 2))
+
+    def seg_d(px, py, x1, y1, x2, y2):
+        dx, dy = x2 - x1, y2 - y1
+        u = max(0.0, min(1.0, ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy or 1e-9)))
+        return math.hypot(px - x1 - u * dx, py - y1 - u * dy)
+
+    def clear_of_tracks(L, x, y):
+        return all(seg_d(x, y, *sg[:4]) >= sg[4] + VIA_D / 2 + CLR for sg in segs[L])
+    gp = []
+    for f in b.Footprints():
+        for p in f.Pads():
+            if p.GetNetname() == GND:
+                gp.append(p)
+    n2 = 0
+    for L in (pcbnew.F_Cu, pcbnew.B_Cu):
+        other = pcbnew.B_Cu if L == pcbnew.F_Cu else pcbnew.F_Cu
+        for ps in polys[L]:
+            for i in range(ps.OutlineCount()):
+                o = ps.Outline(i)
+                vs = [(x, y) for x, y in gvias
+                      if o.PointInside(pcbnew.VECTOR2I(pcbnew.FromMM(x) + ox, pcbnew.FromMM(y) + oy))]
+                npd = sum(1 for p in gp if p.IsOnLayer(L) and o.PointInside(p.GetPosition()))
+                bb = o.BBox()
+                span = max(pcbnew.ToMM(bb.GetWidth()), pcbnew.ToMM(bb.GetHeight()))
+                need = max(2, int(span / 6.0) + 1)     # 長い切れ端は 6mm に 1 本以上
+                if len(vs) + npd > 1 and not (span > 10 and len(vs) < need):
+                    continue
+                x0, y0 = pcbnew.ToMM(bb.GetX() - ox), pcbnew.ToMM(bb.GetY() - oy)
+                x1, y1 = x0 + pcbnew.ToMM(bb.GetWidth()), y0 + pcbnew.ToMM(bb.GetHeight())
+                y = y0
+                while y <= y1:
+                    x = x0
+                    while x <= x1:
+                        inside = all(o.PointInside(pcbnew.VECTOR2I(pcbnew.FromMM(x + dx) + ox,
+                                                                   pcbnew.FromMM(y + dy) + oy)) for dx, dy in ring)
+                        if (inside and primary_ok(x, y, VIA_D / 2)
+                                and all(math.hypot(x - hx, y - hy) >= 3.6 + r for hx, hy in HOLES)
+                                and all(math.hypot(x - vx, y - vy) >= 0.9 for vx, vy in have)
+                                and all(math.hypot(x - vx, y - vy) >= 4.0 for vx, vy in vs)
+                                and not any(a0 - r < x < a1 + r and b0 - r < y < b1 + r for a0, b0, a1, b1 in pads)
+                                and (filled(other, x, y) or clear_of_tracks(other, x, y))):
+                            add_via(b, nets, (x + pcbnew.ToMM(ox), y + pcbnew.ToMM(oy)), GND)
+                            have.append((x, y))
+                            vs.append((x, y))
+                            gvias.append((x, y))
+                            n2 += 1
+                        x += 0.25
+                    y += 0.25
+    print("GND のつなぎビア", n, "+ 切れ端", n2)
+    return n + n2
 
 
 def write_pro():
@@ -904,6 +1070,8 @@ def main():
     for it in list(b.GetFootprints()) + list(b.GetTracks()) + list(b.Drawings()) + list(b.Zones()):
         it.Move(off)
     b.BuildConnectivity()
+    pcbnew.ZONE_FILLER(b).Fill(b.Zones())
+    nst = gnd_stitch(b, nets, off)
     pcbnew.ZONE_FILLER(b).Fill(b.Zones())
     b.Save(OUT)
     write_pro()

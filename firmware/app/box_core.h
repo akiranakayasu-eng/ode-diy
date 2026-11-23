@@ -56,7 +56,7 @@ void box_tick(box_core_t *b, uint32_t now);
 void box_button(box_core_t *b);
 bool box_is_my_lock(const box_core_t *b, int conn);
 /* status の JSON を buf に書く。conn < 0 なら接続に依らない形（you=false, teacher=false） */
-int  box_status_json(const box_core_t *b, int conn, int max_clients, char *buf, int size);
+int  box_status_json(const box_core_t *b, int conn, int max_clients, const char *name_esc, char *buf, int size); /* name_esc は JSON 用に逃がした箱の名前（仕様 v1.1） */
 /* GET /api/dmx の holder 部分 */
 int  box_holder_json(const box_core_t *b, int conn, char *buf, int size);
 #endif
