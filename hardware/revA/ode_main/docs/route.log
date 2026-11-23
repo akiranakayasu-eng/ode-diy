@@ -1,0 +1,31 @@
+      0/69 +5V
+     20/69 /ETH_MDIO
+     40/69 /ETH_MDC
+     60/69 /SWO
+  retry 1: 8 本失敗 -> /CC2,/ETH_RXP,/ETH_TXD1,/HSE_OUT,/PHY_RST_N,/UART_RX,/UART_TX,/USB_DP
+    FAIL /USB_DP : J1.B6#0 - J1.A6#0
+    FAIL /ETH_RXP : U3.23#0 - R71.2#0
+    FAIL /HSE_OUT : Y1.3#0 - U1.13#0
+    FAIL /PHY_RST_N : R64.2#0 - U1.53#0
+    FAIL /CC2 : R2.1#0 - J1.B5#0
+    FAIL /ETH_TXD1 : U3.18#0 - U1.52#0
+    FAIL /UART_RX : U1.69#0 - J4.3#0
+    FAIL /UART_TX : U1.68#0 - J4.2#0
+      0/69 /USB_DP
+     20/69 /VISO_IN_2
+     40/69 /BOOT1
+     60/69 /SWCLK
+  retry 2: 1 本失敗 -> /UART_TX
+    FAIL /UART_TX : U1.68#0 - J4.2#0
+      0/69 /UART_TX
+     20/69 /VISO_IN_2
+     40/69 /BOOT1
+     60/69 /SWCLK
+  retry 3: 2 本失敗 -> /ETH_TXD1,/PHY_RST_N
+    FAIL /PHY_RST_N : R64.2#0 - U1.53#0
+    FAIL /ETH_TXD1 : U3.18#0 - U1.52#0
+      0/69 /PHY_RST_N
+     20/69 /VISO_IN_2
+     40/69 /BOOT1
+     60/69 /SWCLK
+nets 69  tracks 569  vias 137  failed 0

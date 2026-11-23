@@ -1,0 +1,37 @@
+** Drc report for ode_main.kicad_pcb **
+** Created on 2026-10-25T07:41:07 **
+** Report includes: Errors, Warnings **
+
+** Found 5 DRC violations **
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(160.0000 mm, 106.5000 mm): Segment on Edge.Cuts
+    @(206.6900 mm, 106.3300 mm): Segment of J11 on F.Silkscreen
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(160.0000 mm, 106.5000 mm): Segment on Edge.Cuts
+    @(232.2300 mm, 106.3300 mm): Segment of J11 on F.Silkscreen
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(160.0000 mm, 106.5000 mm): Segment on Edge.Cuts
+    @(233.6900 mm, 106.3300 mm): Segment of J21 on F.Silkscreen
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(160.0000 mm, 106.5000 mm): Segment on Edge.Cuts
+    @(259.2300 mm, 106.3300 mm): Segment of J21 on F.Silkscreen
+[lib_footprint_mismatch]: Footprint 'VQFN-24-1EP_4x4mm_P0.5mm_EP2.5x2.5mm_ThermalVias' does not match copy in library 'Package_DFN_QFN'
+    Local override; warning
+    @(189.5000 mm, 139.5000 mm): Footprint U3
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **

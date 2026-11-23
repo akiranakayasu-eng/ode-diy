@@ -1,0 +1,22 @@
+{
+ "outer_w": 89.2,
+ "outer_d": 90.7,
+ "outer_h": 44.8,
+ "main_board": [
+  76.0,
+  80.0
+ ],
+ "spacer_low": 5.0,
+ "spacer_high": 35.0,
+ "wall_h_without_tabs": 41.6,
+ "front_back_wall_w": 82.0,
+ "side_wall_d": 86.7,
+ "tab": [
+  10.0,
+  1.6
+ ],
+ "slot": [
+  10.2,
+  1.8
+ ]
+}

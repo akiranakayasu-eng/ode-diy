@@ -1,0 +1,34 @@
+      0/66 /+3V3A
+     20/66 /DE
+     40/66 /ETH_MOSI
+     60/66 /TX_U
+  retry 1: 6 本失敗 -> /ETH_MISO,/ETH_MOSI,/ETH_RDP,/ETH_RXP,/EXRES1,/TOCAP
+    FAIL /ETH_RXP : U3.6#0 - R71.1#0
+    FAIL /ETH_MISO : U3.34#0 - U1.21#0
+    FAIL /ETH_MOSI : U3.35#0 - U1.19#0
+    FAIL /ETH_RDP : J5.R3#0 - C63.2#0
+    FAIL /EXRES1 : U3.10#0 - R61.1#0
+    FAIL /TOCAP : U3.20#0 - C54.1#0
+      0/66 /ETH_RXP
+     20/66 /X25_IN
+     40/66 /1V2O
+     60/66 /TX_U
+  retry 2: 7 本失敗 -> /ETH_INT_N,/ETH_RXN,/ETH_SCLK_W,/ETH_TXN,/ETH_TXP
+    FAIL /ETH_INT_N : U3.36#0 - U1.22#0
+    FAIL /ETH_RXN : U3.5#0 - R72.1#0
+    FAIL /ETH_SCLK_W : U3.33#0 - R76.2#0
+    FAIL /ETH_TXN : U3.1#0 - R70.2#0
+    FAIL /ETH_TXN : R70.2#0 - J5.R2#0
+    FAIL /ETH_TXP : U3.2#0 - R69.2#0
+    FAIL /ETH_TXP : R69.2#0 - J5.R1#0
+      0/66 /ETH_TXN
+     20/66 /VISO_IN_1
+     40/66 /1V2O
+     60/66 /TX_U
+  retry 3: 1 本失敗 -> /ETH_MOSI
+    FAIL /ETH_MOSI : U3.35#0 - U1.19#0
+      0/66 /ETH_TXN
+     20/66 /VISO_IN_1
+     40/66 /1V2O
+     60/66 /TX_U
+nets 66  tracks 524  vias 121  failed 0

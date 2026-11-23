@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "ode_main")(type "KiCad")(uri "${KIPRJMOD}/ode_main.pretty")(options "")(descr "MJ-179PH DC jack"))
+)

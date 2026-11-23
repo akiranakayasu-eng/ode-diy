@@ -1,0 +1,16 @@
+Copyright 2026 Akira Nakayasu
+
+SPDX-License-Identifier: CERN-OHL-P-2.0
+
+The hardware designs in this directory (schematics, PCB layouts, Gerber files,
+case plates and their documentation) are licensed under the CERN Open Hardware
+Licence Version 2 - Permissive (see ../LICENSE-HARDWARE).
+
+Scripts in hardware/**/scripts/ and other *.py / *.sh files are licensed under
+the MIT License (see ../LICENSE-FIRMWARE).
+
+Symbols and footprints taken from the KiCad standard libraries are under
+CC-BY-SA 4.0 with the KiCad libraries exception.
+
+ENTTEC and ODE are trademarks of ENTTEC Pty Ltd. This project is not affiliated
+with ENTTEC.

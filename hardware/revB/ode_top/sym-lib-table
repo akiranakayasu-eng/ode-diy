@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "ode_top_revB")(type "KiCad")(uri "${KIPRJMOD}/ode_top_revB.kicad_sym")(options "")(descr ""))
+)

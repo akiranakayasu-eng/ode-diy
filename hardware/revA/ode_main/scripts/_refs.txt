@@ -1,0 +1,96 @@
+# ---------------------------------------------------------------- 参照記号 (artic8 と同じ方式)
+REF_SIZE, REF_THICK, REF_CLR = 0.8, 0.15, 0.12
+REF_OFFSETS = (0.12, 0.25, 0.4, 0.6, 0.85, 1.15, 1.5, 2.0, 2.6, 3.3)
+REF_SHIFTS = (0.0, 0.5, -0.5, 1.0, -1.0, 1.5, -1.5, 2.0, -2.0, 2.6, -2.6)
+
+
+def _box(bb, m=0.0):
+    return (pcbnew.ToMM(bb.GetLeft()) - m, pcbnew.ToMM(bb.GetTop()) - m,
+            pcbnew.ToMM(bb.GetRight()) + m, pcbnew.ToMM(bb.GetBottom()) + m)
+
+
+def _hit(a, obs):
+    return any(a[0] < o[2] and o[0] < a[2] and a[1] < o[3] and o[1] < a[3] for o in obs)
+
+
+def place_refs(b, texts):
+    lim = (0.4, 0.4, W - 0.4, H - 0.4)
+    obs_side = {"F": list(texts), "B": []}        # 表裏で別々に (裏の部品の参照記号は裏のシルク)
+    for fp in b.Footprints():
+        side = "B" if fp.IsFlipped() else "F"
+        for pad in fp.Pads():
+            for L in ("F", "B"):
+                if pad.IsOnLayer(pcbnew.F_Cu if L == "F" else pcbnew.B_Cu):
+                    obs_side[L].append(_box(pad.GetBoundingBox(), REF_CLR + 0.05))
+        for it in fp.GraphicalItems():
+            if it.GetLayer() in (pcbnew.F_SilkS, pcbnew.B_SilkS) and hasattr(it, "GetShape"):
+                obs_side[side].append(_box(it.GetBoundingBox(), REF_CLR))
+    placed_side = {"F": [], "B": []}
+    failed = []
+
+    def area(f):
+        q = _box(f.GetBoundingBox())
+        return (q[2] - q[0]) * (q[3] - q[1])
+
+    for fp in sorted(b.Footprints(), key=area):
+        if fp.GetReference().startswith("H"):
+            continue
+        obs, placed = obs_side["B" if fp.IsFlipped() else "F"], placed_side["B" if fp.IsFlipped() else "F"]
+        ref = fp.Reference()
+        ref.SetVisible(True)
+        ref.SetLayer(pcbnew.B_SilkS if fp.IsFlipped() else pcbnew.F_SilkS)
+        ref.SetTextSize(pcbnew.VECTOR2I_MM(REF_SIZE, REF_SIZE))
+        ref.SetTextThickness(pcbnew.FromMM(REF_THICK))
+        ref.SetKeepUpright(False)
+        px0 = min(_box(p.GetBoundingBox())[0] for p in fp.Pads())
+        py0 = min(_box(p.GetBoundingBox())[1] for p in fp.Pads())
+        px1 = max(_box(p.GetBoundingBox())[2] for p in fp.Pads())
+        py1 = max(_box(p.GetBoundingBox())[3] for p in fp.Pads())
+        ccx, ccy = (px0 + px1) / 2, (py0 + py1) / 2
+        best = None
+        for d in REF_OFFSETS:
+            for sh in REF_SHIFTS:
+                tw = 0.7 * len(fp.GetReference()) / 2 + 0.1
+                for ang, tx, ty in ((0, ccx + sh, py0 - d - 0.5), (0, ccx + sh, py1 + d + 0.5),
+                                    (90, px0 - d - 0.5, ccy + sh), (90, px1 + d + 0.5, ccy + sh),
+                                    (0, px1 + d + tw, ccy + sh), (0, px0 - d - tw, ccy + sh)):
+                    ref.SetTextAngleDegrees(ang)
+                    ref.SetPosition(pcbnew.VECTOR2I_MM(round(tx, 4), round(ty, 4)))
+                    bb = _box(ref.GetBoundingBox())
+                    if bb[0] < lim[0] or bb[1] < lim[1] or bb[2] > lim[2] or bb[3] > lim[3]:
+                        continue
+                    if _hit(bb, obs) or _hit(bb, placed):
+                        continue
+                    dist = math.hypot(tx - ccx, ty - ccy)
+                    if best is None or dist < best[0]:
+                        best = (dist, ang, tx, ty, bb)
+            if best is not None:
+                break
+        if best is None:
+            ref.SetVisible(False)
+            failed.append(fp.GetReference())
+            continue
+        _, ang, tx, ty, bb = best
+        ref.SetTextAngleDegrees(ang)
+        ref.SetPosition(pcbnew.VECTOR2I_MM(round(tx, 4), round(ty, 4)))
+        placed.append((bb[0] - REF_CLR, bb[1] - REF_CLR, bb[2] + REF_CLR, bb[3] + REF_CLR))
+    return len(placed_side["F"]) + len(placed_side["B"]), failed
+
+
+# ---------------------------------------------------------------- シルクの文字
+def silk(b, s, x, y, size=0.8, ang=0, just=None, layer=pcbnew.F_SilkS):
+    tx = pcbnew.PCB_TEXT(b)
+    tx.SetText(s)
+    tx.SetLayer(layer)
+    tx.SetTextSize(pcbnew.VECTOR2I_MM(size, size))
+    tx.SetTextThickness(pcbnew.FromMM(0.15))
+    tx.SetTextAngleDegrees(ang)
+    if layer == pcbnew.B_SilkS:
+        tx.SetMirrored(True)
+    if just is not None:
+        tx.SetHorizJustify(just)
+    tx.SetPosition(pcbnew.VECTOR2I_MM(x, y))
+    b.Add(tx)
+    return _box(tx.GetBoundingBox(), REF_CLR)
+
+

@@ -1,0 +1,12 @@
+# Linux で試す host 版: make -f Makefile.host
+LWIP ?= vendor/lwip
+CC = gcc
+CFLAGS = -O1 -g -Wall -Wno-unused-function -Iapp -Iport/common -Iport/host -I$(LWIP)/src/include
+LWIP_SRC = $(LWIP)/src/core/init.c $(LWIP)/src/core/def.c $(LWIP)/src/core/inet_chksum.c $(LWIP)/src/core/ip.c \
+  $(LWIP)/src/core/mem.c $(LWIP)/src/core/memp.c $(LWIP)/src/core/netif.c $(LWIP)/src/core/pbuf.c \
+  $(LWIP)/src/core/tcp.c $(LWIP)/src/core/tcp_in.c $(LWIP)/src/core/tcp_out.c $(LWIP)/src/core/timeouts.c \
+  $(LWIP)/src/core/udp.c $(LWIP)/src/core/ipv4/*.c $(LWIP)/src/netif/ethernet.c
+APP_SRC = app/ui.c app/sacn.c app/app.c app/box_core.c app/artnet.c app/http.c app/minijson.c app/sha1.c app/settings.c app/assets_gen.c
+build/ode_host: $(APP_SRC) $(wildcard app/*.h) port/host/main.c port/common/lwipopts.h
+	mkdir -p build
+	$(CC) $(CFLAGS) -o $@ $(APP_SRC) port/host/main.c $(wildcard $(LWIP_SRC))

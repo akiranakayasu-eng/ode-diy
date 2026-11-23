@@ -1,0 +1,49 @@
+# ---------------------------------------------------------------- ネットリスト
+def sexp(text, i=0):
+    out = []
+    while i < len(text):
+        c = text[i]
+        if c == "(":
+            sub, i = sexp(text, i + 1)
+            out.append(sub)
+        elif c == ")":
+            return out, i + 1
+        elif c == '"':
+            j = i + 1
+            while text[j] != '"':
+                j += 2 if text[j] == "\\" else 1
+            out.append(text[i + 1:j])
+            i = j + 1
+        elif c.isspace():
+            i += 1
+        else:
+            j = i
+            while j < len(text) and not text[j].isspace() and text[j] not in "()":
+                j += 1
+            out.append(text[i:j])
+            i = j
+    return out, i
+
+
+def load_netlist():
+    txt = open(os.path.join(PROJ, "netlist.net")).read()
+    root, _ = sexp(txt, txt.index("(") + 1)
+
+    def f(n, k):
+        return [x for x in n if isinstance(x, list) and x and x[0] == k]
+
+    def v(n, k):
+        r = f(n, k)
+        return r[0][1] if r and len(r[0]) > 1 else None
+
+    comps = {}
+    for c in f(f(root, "components")[0], "comp"):
+        comps[v(c, "ref")] = (v(c, "value"), v(c, "footprint"))
+    nets = {}
+    for net in f(f(root, "nets")[0], "net"):
+        name = v(net, "name")
+        for nd in f(net, "node"):
+            nets[(v(nd, "ref"), v(nd, "pin"))] = name
+    return comps, nets
+
+

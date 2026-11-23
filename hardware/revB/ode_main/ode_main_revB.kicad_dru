@@ -1,0 +1,6 @@
+(version 1)
+
+# 絶縁帯: ポート k の絶縁側 (GND_ISO_k / DMX_k ...) と、それ以外の銅の間隔。gen_pcb.py が書く
+(rule "isolation_gap_1"
+	(constraint clearance (min 7.49mm))
+	(condition "(A.NetName == '/DMX_N_1' || A.NetName == '/DMX_P_1' || A.NetName == '/GND2_PWR_1' || A.NetName == '/GND_ISO_1' || A.NetName == '/LEDA_1' || A.NetName == '/VISO_IN_1' || A.NetName == '/VISO_OUT_1') && !(B.NetName == '/DMX_N_1' || B.NetName == '/DMX_P_1' || B.NetName == '/GND2_PWR_1' || B.NetName == '/GND_ISO_1' || B.NetName == '/LEDA_1' || B.NetName == '/VISO_IN_1' || B.NetName == '/VISO_OUT_1') && B.NetName != '' && !A.memberOfFootprint('U11') && !B.memberOfFootprint('U11') && !A.memberOfFootprint('C109') && !B.memberOfFootprint('C109') && !(A.Type == 'Track' && A.intersectsArea('NOTCH_1')) && !(B.Type == 'Track' && B.intersectsArea('NOTCH_1'))"))

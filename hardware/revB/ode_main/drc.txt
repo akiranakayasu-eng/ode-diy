@@ -1,0 +1,37 @@
+** Drc report for ode_main_revB.kicad_pcb **
+** Created on 2026-11-23T03:10:16 **
+** Report includes: Errors, Warnings **
+
+** Found 5 DRC violations **
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(186.5000 mm, 147.0000 mm): Segment on Edge.Cuts
+    @(139.3000 mm, 153.1500 mm): Segment of U1 on F.Silkscreen
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(186.5000 mm, 147.0000 mm): Segment on Edge.Cuts
+    @(157.7000 mm, 153.1500 mm): Segment of U1 on F.Silkscreen
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(110.5000 mm, 63.0000 mm): Segment on Edge.Cuts
+    @(157.1900 mm, 62.8300 mm): Segment of J11 on F.Silkscreen
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(110.5000 mm, 63.0000 mm): Segment on Edge.Cuts
+    @(182.7300 mm, 62.8300 mm): Segment of J11 on F.Silkscreen
+[lib_footprint_mismatch]: Footprint 'ESP32-S3-WROOM-1' does not match copy in library 'RF_Module'
+    Local override; warning
+    @(148.5000 mm, 140.2500 mm): Footprint U1
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **
